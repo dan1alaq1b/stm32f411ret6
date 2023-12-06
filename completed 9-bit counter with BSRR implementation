@@ -1,9 +1,23 @@
 /* Working 9-bit Up & Down Counter */
 /* attempting to add delay to fix bouncing (doesn’t work yet) */
+/* 5:27 am dec 7, 23 | updated code with BSRR implementation */
 
 #include "main.h"
 /* Private variables ---------------------------------------------------------*/
 uint8_t number;
+/*
+uint16_t zero = 0xCC;			//hexadecimal
+uint16_t one = 0b1011111101;	//binary	(PA0 as LSB; PA9 as MSB)
+uint16_t two = 0b0000000000;
+uint16_t three = 0xF4;
+uint16_t four = 0x2E5;
+uint16_t five = 0x1E4;
+uint16_t six = 0x1C4;
+uint16_t seven = 0xFD;
+uint16_t eight = 0xC4;
+uint16_t nine = 0xE4;
+*/
+//int bicounter[ ] = [0b0];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -55,117 +69,139 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
+	  // reset the display
+	  GPIOA->BSRR = 0b0000001101110011;
 	  /* Display the number */
 	  switch (number) {
 	  case 0:
 		  // Display 0
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, zero, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001100110011<<16; //turn on 0
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); // g
-		  break;
+*/		  break;
 
 	  case 1:
 		  // Display 1
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // a
+		  //HAL_GPIO_WritePin(GPIOA, one, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000000100000010<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); // g
-		  break;
+*/		  break;
 
 	  case 2:
 		  // Display 2
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, two, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001001010011<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 3:
 		  // Display 3
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, three, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001101000011<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 4:
 		  // Display 4
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // a
+		  //HAL_GPIO_WritePin(GPIOA, four, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000000101100010<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 5:
 		  // Display 5
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, five, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001101100001<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 6:
 		  // Display 6
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, six, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001101110001<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 7:
 		  // Display 7
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, seven, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000000100000011<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET); // g
-		  break;
+*/		  break;
 
 	  case 8:
 		  // Display 8
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, eight, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001101110011<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 
 	  case 9:
 		  // Display 9
-		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
+		  //HAL_GPIO_WritePin(GPIOA, nine, GPIO_PIN_SET);
+		  GPIOA->BSRR = 0b0000001101100011<<16;
+/*		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // a
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // b
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); // c
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); // d
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET); // e
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET); // f
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET); // g
-		  break;
+*/		  break;
 	  } //switch
   } //while
 } //main
